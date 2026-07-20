@@ -60,7 +60,6 @@ export default function AdminStockPage() {
             <Input label="Responsavel" value={entry.responsible} onChange={(event) => setEntry((current) => ({ ...current, responsible: event.target.value }))} />
           </div>
           <Input label="Motivo" value={entry.reason} onChange={(event) => setEntry((current) => ({ ...current, reason: event.target.value }))} className="mt-3" />
-          <p className="mt-3 text-xs text-ink/45">A mutacao addStockMovement soma ao estoque. Depois sera POST /api/stock-movements.</p>
           <Button type="submit" className="mt-4">Registrar entrada</Button>
         </form>
         <form onSubmit={registerExit} className="rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
@@ -76,7 +75,6 @@ export default function AdminStockPage() {
             <Input label="Motivo" value={exit.reason} onChange={(event) => setExit((current) => ({ ...current, reason: event.target.value }))} />
             <Input label="Responsavel" value={exit.responsible} onChange={(event) => setExit((current) => ({ ...current, responsible: event.target.value }))} />
           </div>
-          <p className="mt-3 text-xs text-ink/45">A mutacao addStockMovement subtrai do estoque e bloqueia saldo negativo.</p>
           <Button type="submit" className="mt-4">Registrar saida</Button>
         </form>
       </section>

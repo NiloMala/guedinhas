@@ -106,7 +106,6 @@ export default function CheckoutPage() {
               </label>
             ))}
           </div>
-          <p className="text-xs text-ink/45">A mutacao createOrderFromCheckout concentra a regra. Depois ela sera substituida por POST /api/orders.</p>
           {message && <p className="rounded-md bg-rose/10 p-3 text-sm text-rose">{message}</p>}
           <Button type="button" onClick={finishOrder}>Concluir pedido</Button>
         </form>

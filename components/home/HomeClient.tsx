@@ -15,15 +15,15 @@ export function HomeClient() {
 
   return (
     <div>
-      <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden">
-        <Image src={heroSlides[0].image} alt="Editorial Guedinhas" fill priority className="object-cover" />
+      <section className="relative min-h-[80vh] overflow-hidden sm:min-h-[calc(100vh-4rem)]">
+        <Image src={heroSlides[0].image} alt="Editorial Guedinhas" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/78 via-ink/40 to-transparent" />
-        <div className="relative mx-auto flex min-h-[calc(100vh-4rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
+        <div className="relative mx-auto flex min-h-[80vh] max-w-7xl items-center px-4 py-14 sm:min-h-[calc(100vh-4rem)] sm:px-6 sm:py-20 lg:px-8">
           <div className="max-w-2xl text-white">
             <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-gold">
               <Sparkles size={16} /> Online Store
             </span>
-            <h1 className="mt-4 font-display text-5xl font-semibold leading-tight sm:text-7xl">Guedinhas</h1>
+            <h1 className="mt-4 font-display text-4xl font-semibold leading-tight sm:text-6xl lg:text-7xl">Guedinhas</h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-white/78 sm:text-lg">{heroSlides[0].subtitle}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="/catalogo">Ver colecao <ArrowRight size={18} /></Button>

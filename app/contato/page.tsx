@@ -1,17 +1,30 @@
+"use client";
+
+import { FormEvent, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
 export default function ContactPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const text = `Ola! Meu nome e ${name || "(nao informado)"} (${email || "sem e-mail"}).\n\n${message}`;
+    window.open(`https://wa.me/55129988945359?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="font-display text-4xl font-semibold">Contato</h1>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <form className="grid gap-4 rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
-          <Input label="Nome" />
-          <Input label="E-mail" type="email" />
-          <Input label="Mensagem" placeholder="Como podemos ajudar?" />
-          <Button type="button">Enviar mensagem</Button>
+        <form onSubmit={handleSubmit} className="grid gap-4 rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
+          <Input required label="Nome" value={name} onChange={(event) => setName(event.target.value)} />
+          <Input label="E-mail" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+          <Input required label="Mensagem" placeholder="Como podemos ajudar?" value={message} onChange={(event) => setMessage(event.target.value)} />
+          <Button type="submit">Enviar mensagem</Button>
         </form>
         <div className="rounded-lg bg-ink p-6 text-white">
           <h2 className="font-display text-3xl">Atendimento pelo WhatsApp</h2>

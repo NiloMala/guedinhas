@@ -93,7 +93,6 @@ export default function AdminOrdersPage() {
                   />
                   <Button type="button" variant="secondary" onClick={() => saveStatus(order.id, order.dbId)}>Atualizar</Button>
                 </div>
-                <p className="mt-3 text-xs text-ink/45">Ao cancelar, updateOrderStatus devolve o estoque e registra StockMovement tipo estorno. Depois sera PATCH /api/orders/:id/status.</p>
               </article>
             );
           })}
@@ -103,7 +102,7 @@ export default function AdminOrdersPage() {
         {["Clientes e historico de compras", "Cupons percentuais ou fixos", "Relatorios de vendas e giro"].map((title) => (
           <div key={title} className="rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
             <h2 className="font-semibold">{title}</h2>
-            <p className="mt-2 text-sm text-ink/55">Modulo preparado para CRUD e filtros por periodo na integracao com API.</p>
+            <p className="mt-2 text-sm text-ink/55">Em breve.</p>
           </div>
         ))}
       </section>

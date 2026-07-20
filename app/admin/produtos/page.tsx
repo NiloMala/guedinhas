@@ -141,7 +141,7 @@ export default function AdminProductsPage() {
         </div>
         <label className="grid gap-2 text-sm font-medium">
           Fotos
-          <input type="file" multiple accept="image/*" disabled={uploading} onChange={handleImages} className="focus-ring rounded-md border border-ink/12 bg-white p-2 text-sm" />
+          <input type="file" multiple accept="image/*" disabled={uploading} onChange={handleImages} className="focus-ring w-full min-w-0 rounded-md border border-ink/12 bg-white p-2 text-sm" />
         </label>
         {uploading && <p className="text-xs text-ink/45">Enviando imagens...</p>}
         {uploadError && <p className="text-xs text-rose">{uploadError}</p>}
@@ -174,7 +174,6 @@ export default function AdminProductsPage() {
           <label><input type="checkbox" checked={form.featured} onChange={(event) => setForm((current) => ({ ...current, featured: event.target.checked }))} className="mr-2 accent-ink" />Mais vendido</label>
           <label><input type="checkbox" checked={form.promo} onChange={(event) => setForm((current) => ({ ...current, promo: event.target.checked }))} className="mr-2 accent-ink" />Promocao</label>
         </div>
-        <p className="text-xs text-ink/45">A mutacao upsertProduct salva no store. Depois sera POST/PUT /api/products.</p>
         <div className="grid gap-2 sm:grid-cols-2">
           <Button type="submit">Salvar produto</Button>
           <Button type="button" variant="secondary" onClick={() => setForm(blankForm)}>Limpar</Button>

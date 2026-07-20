@@ -28,10 +28,10 @@ export function Footer() {
         <div>
           <h3 className="text-sm font-semibold text-gold">Redes</h3>
           <div className="mt-3 flex gap-3">
-            <a aria-label="Instagram" className="rounded-md bg-white/10 p-2 hover:bg-white/15" href="https://www.instagram.com/guedinhas2026?igsh=dmxwcnFwcHNpeDg0" target="_blank">
+            <a aria-label="Instagram" className="rounded-md bg-white/10 p-2 hover:bg-white/15" href="https://www.instagram.com/guedinhas2026?igsh=dmxwcnFwcHNpeDg0" target="_blank" rel="noopener noreferrer">
               <Instagram size={18} />
             </a>
-            <a aria-label="WhatsApp" className="rounded-md bg-white/10 p-2 hover:bg-white/15" href="https://wa.me/55129988945359" target="_blank">
+            <a aria-label="WhatsApp" className="rounded-md bg-white/10 p-2 hover:bg-white/15" href="https://wa.me/55129988945359" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={18} />
             </a>
           </div>

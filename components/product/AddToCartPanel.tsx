@@ -72,7 +72,6 @@ export function AddToCartPanel({ product }: { product: Product }) {
           <MessageCircle size={18} /> Comprar pelo WhatsApp
         </Button>
       </div>
-      <p className="text-xs text-ink/45">Ao concluir uma venda no backend, dar baixa automatica em POST /api/orders/:id/complete.</p>
     </section>
   );
 }
