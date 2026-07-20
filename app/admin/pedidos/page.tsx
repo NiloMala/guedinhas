@@ -46,9 +46,9 @@ export default function AdminOrdersPage() {
       <section className="grid gap-4 sm:grid-cols-3">
         <Input label="Buscar pedido ou cliente" placeholder="#1048 ou Mariana" value={query} onChange={(event) => setQuery(event.target.value)} />
         <Input label="Periodo" type="date" value={period} onChange={(event) => setPeriod(event.target.value)} />
-        <label className="grid gap-2 text-sm font-medium">
+        <label className="grid min-w-0 gap-2 text-sm font-medium">
           Status
-          <select value={status} onChange={(event) => setStatus(event.target.value)} className="focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm">
+          <select value={status} onChange={(event) => setStatus(event.target.value)} className="focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm">
             <option value="">Todos</option>
             {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
@@ -81,7 +81,7 @@ export default function AdminOrdersPage() {
                   <select
                     value={draft.status}
                     onChange={(event) => setDrafts((current) => ({ ...current, [order.id]: { ...draft, status: event.target.value as OrderStatus } }))}
-                    className="focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm"
+                    className="focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm"
                   >
                     {statuses.map((item) => <option key={item}>{item}</option>)}
                   </select>

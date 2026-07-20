@@ -16,15 +16,16 @@ export function Input({ label, className, type, ...props }: Props) {
     <input
       type={isPassword ? (show ? "text" : "password") : type}
       className={cn(
-        "focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm text-ink placeholder:text-ink/40",
-        isPassword ? "w-full pr-10" : className
+        "focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm text-ink placeholder:text-ink/40",
+        isPassword && "pr-10",
+        !isPassword && className
       )}
       {...props}
     />
   );
 
   return (
-    <label className={cn("grid gap-2 text-sm font-medium text-ink", isPassword && className)}>
+    <label className={cn("grid min-w-0 gap-2 text-sm font-medium text-ink", isPassword && className)}>
       {label && <span>{label}</span>}
       {isPassword ? (
         <span className="relative flex">

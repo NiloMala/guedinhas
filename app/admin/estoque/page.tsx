@@ -121,9 +121,9 @@ export default function AdminStockPage() {
 
 function SkuSelect({ value, onChange, variations }: { value: string; onChange: (sku: string) => void; variations: Array<{ product: string; sku: string; size: string; color: string }> }) {
   return (
-    <label className="grid gap-2 text-sm font-medium">
+    <label className="grid min-w-0 gap-2 text-sm font-medium">
       SKU
-      <select required value={value} onChange={(event) => onChange(event.target.value)} className="focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm">
+      <select required value={value} onChange={(event) => onChange(event.target.value)} className="focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm">
         <option value="">Selecione</option>
         {variations.map((variation) => (
           <option key={variation.sku} value={variation.sku}>{variation.sku} · {variation.product} · {variation.size}/{variation.color}</option>

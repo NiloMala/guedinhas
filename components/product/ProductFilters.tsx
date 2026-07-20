@@ -19,7 +19,7 @@ type Props = {
 };
 
 export function ProductFilters(props: Props) {
-  const selectClass = "focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm";
+  const selectClass = "focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm";
 
   return (
     <aside className="rounded-lg border border-ink/10 bg-white p-4 shadow-sm">

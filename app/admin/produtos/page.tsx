@@ -219,9 +219,9 @@ export default function AdminProductsPage() {
 
 function Select({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
   return (
-    <label className="grid gap-2 text-sm font-medium">
+    <label className="grid min-w-0 gap-2 text-sm font-medium">
       {label}
-      <select required value={value} onChange={(event) => onChange(event.target.value)} className="focus-ring h-11 rounded-md border border-ink/12 bg-white px-3 text-sm">
+      <select required value={value} onChange={(event) => onChange(event.target.value)} className="focus-ring h-11 w-full min-w-0 rounded-md border border-ink/12 bg-white px-3 text-sm">
         <option value="">Selecione</option>
         {options.map((option) => <option key={option}>{option}</option>)}
       </select>
