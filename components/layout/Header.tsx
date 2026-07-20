@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
+import { LogOut, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "@/hooks/useCart";
 import { supabaseBrowser } from "@/lib/supabase/client";
@@ -14,6 +15,7 @@ const baseLinks = [
 ];
 
 export function Header() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const { items } = useCart();
@@ -29,6 +31,13 @@ export function Header() {
 
   const links = isAdmin ? [...baseLinks, ["Admin", "/admin"]] : baseLinks;
 
+  async function handleSignOut() {
+    await supabaseBrowser.auth.signOut();
+    setOpen(false);
+    router.push("/");
+    router.refresh();
+  }
+
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -41,6 +50,11 @@ export function Header() {
               {label}
             </Link>
           ))}
+          {isAdmin && (
+            <button onClick={handleSignOut} className="focus-ring inline-flex items-center gap-1.5 text-ink/70 transition hover:text-ink">
+              <LogOut size={16} /> Sair
+            </button>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <Link href="/catalogo" aria-label="Buscar produtos" className="focus-ring rounded-md p-2 hover:bg-ink/5">
@@ -65,6 +79,11 @@ export function Header() {
               {label}
             </Link>
           ))}
+          {isAdmin && (
+            <button onClick={handleSignOut} className="flex items-center gap-1.5 rounded-md px-2 py-2 text-left text-ink/75 hover:bg-ink/5">
+              <LogOut size={16} /> Sair
+            </button>
+          )}
         </nav>
       )}
     </header>
