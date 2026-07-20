@@ -51,8 +51,10 @@ export default function AdminStockPage() {
             <ArrowUpCircle size={20} className="text-emerald-600" />
             <h2 className="font-semibold">Entrada de mercadoria</h2>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-4">
             <SkuSelect value={entry.sku} onChange={(sku) => setEntry((current) => ({ ...current, sku }))} variations={variations} />
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Quantidade" type="number" min={1} value={entry.quantity} onChange={(event) => setEntry((current) => ({ ...current, quantity: Number(event.target.value) }))} />
             <Input label="Fornecedor" placeholder="Atelie Rosa" value={entry.supplier} onChange={(event) => setEntry((current) => ({ ...current, supplier: event.target.value }))} />
             <Input label="Responsavel" value={entry.responsible} onChange={(event) => setEntry((current) => ({ ...current, responsible: event.target.value }))} />
@@ -66,8 +68,10 @@ export default function AdminStockPage() {
             <ArrowDownCircle size={20} className="text-rose" />
             <h2 className="font-semibold">Saida manual</h2>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-4">
             <SkuSelect value={exit.sku} onChange={(sku) => setExit((current) => ({ ...current, sku }))} variations={variations} />
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Input label="Quantidade" type="number" min={1} value={exit.quantity} onChange={(event) => setExit((current) => ({ ...current, quantity: Number(event.target.value) }))} />
             <Input label="Motivo" value={exit.reason} onChange={(event) => setExit((current) => ({ ...current, reason: event.target.value }))} />
             <Input label="Responsavel" value={exit.responsible} onChange={(event) => setExit((current) => ({ ...current, responsible: event.target.value }))} />
