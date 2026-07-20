@@ -35,7 +35,9 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/upload") ||
     (pathname.startsWith("/api/orders") && !isCheckoutPost);
 
-  if (!user && pathname.startsWith("/admin")) {
+  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
+
+  if (!user && isAdminPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin-login";
     url.searchParams.set("next", pathname);
