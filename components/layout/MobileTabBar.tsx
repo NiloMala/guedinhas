@@ -2,26 +2,34 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Info, LayoutGrid, LogOut, MessageCircle, ShieldCheck, UserRound } from "lucide-react";
+import { Boxes, ClipboardList, Home, Info, LayoutDashboard, LayoutGrid, LogOut, MessageCircle, Package, ShieldCheck, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { supabaseBrowser } from "@/lib/supabase/client";
 
-const tabs = [
+const storeTabs = [
   { href: "/", label: "Home", icon: Home },
   { href: "/catalogo", label: "Catalogo", icon: LayoutGrid },
   { href: "/sobre", label: "Sobre", icon: Info },
   { href: "/contato", label: "Contato", icon: MessageCircle }
 ];
 
+const adminTabs = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/produtos", label: "Produtos", icon: Package },
+  { href: "/admin/estoque", label: "Estoque", icon: Boxes },
+  { href: "/admin/pedidos", label: "Pedidos", icon: ClipboardList }
+];
+
 export function MobileTabBar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isLoggedIn, isAdmin } = useAuthUser();
+  const isAdminSection = pathname === "/admin" || pathname.startsWith("/admin/");
 
   async function handleSignOut() {
     await supabaseBrowser.auth.signOut();
-    router.push("/");
+    router.push(isAdminSection ? "/login" : "/");
     router.refresh();
   }
 
@@ -32,8 +40,7 @@ export function MobileTabBar() {
     );
   }
 
-  // O painel /admin tem sua propria navegacao (AdminNav); evita duplicar.
-  if (pathname === "/admin" || pathname.startsWith("/admin/")) return null;
+  const tabs = isAdminSection ? adminTabs : storeTabs;
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-1 overflow-x-auto border-t border-ink/10 bg-white/95 px-2 py-1.5 backdrop-blur md:hidden">
@@ -47,17 +54,19 @@ export function MobileTabBar() {
           </Link>
         );
       })}
-      <Link href={isLoggedIn ? "/minha-conta" : "/login"} className={tabClass(pathname === "/minha-conta" || pathname === "/login")}>
-        <UserRound size={20} />
-        Conta
-      </Link>
-      {isAdmin && (
-        <Link href="/admin" className={tabClass(pathname === "/admin" || pathname.startsWith("/admin/"))}>
+      {!isAdminSection && (
+        <Link href={isLoggedIn ? "/minha-conta" : "/login"} className={tabClass(pathname === "/minha-conta" || pathname === "/login")}>
+          <UserRound size={20} />
+          Conta
+        </Link>
+      )}
+      {!isAdminSection && isAdmin && (
+        <Link href="/admin" className={tabClass(false)}>
           <ShieldCheck size={20} />
           Admin
         </Link>
       )}
-      {isLoggedIn && (
+      {(isAdminSection || isLoggedIn) && (
         <button type="button" onClick={handleSignOut} className={tabClass(false)}>
           <LogOut size={20} />
           Sair

@@ -11,7 +11,7 @@ const items = [
 
 export function AdminNav() {
   return (
-    <nav className="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-ink/10 bg-white p-2 shadow-sm">
+    <nav className="mb-6 hidden flex-wrap items-center justify-between gap-2 rounded-lg border border-ink/10 bg-white p-2 shadow-sm md:flex">
       <div className="flex min-w-0 gap-2 overflow-x-auto">
         {items.map((item) => {
           const Icon = item.icon;
