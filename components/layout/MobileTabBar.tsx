@@ -43,35 +43,37 @@ export function MobileTabBar() {
   const tabs = isAdminSection ? adminTabs : storeTabs;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-1 overflow-x-auto border-t border-ink/10 bg-white/95 px-2 py-1.5 backdrop-blur md:hidden">
-      {tabs.map((tab) => {
-        const Icon = tab.icon;
-        const active = pathname === tab.href;
-        return (
-          <Link key={tab.href} href={tab.href} className={tabClass(active)}>
-            <Icon size={20} />
-            {tab.label}
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-white/95 backdrop-blur md:hidden">
+      <div className="flex items-center gap-1 overflow-x-auto px-2 py-1.5">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = pathname === tab.href;
+          return (
+            <Link key={tab.href} href={tab.href} className={tabClass(active)}>
+              <Icon size={20} />
+              {tab.label}
+            </Link>
+          );
+        })}
+        {!isAdminSection && (
+          <Link href={isLoggedIn ? "/minha-conta" : "/login"} className={tabClass(pathname === "/minha-conta" || pathname === "/login")}>
+            <UserRound size={20} />
+            Conta
           </Link>
-        );
-      })}
-      {!isAdminSection && (
-        <Link href={isLoggedIn ? "/minha-conta" : "/login"} className={tabClass(pathname === "/minha-conta" || pathname === "/login")}>
-          <UserRound size={20} />
-          Conta
-        </Link>
-      )}
-      {!isAdminSection && isAdmin && (
-        <Link href="/admin" className={tabClass(false)}>
-          <ShieldCheck size={20} />
-          Admin
-        </Link>
-      )}
-      {(isAdminSection || isLoggedIn) && (
-        <button type="button" onClick={handleSignOut} className={tabClass(false)}>
-          <LogOut size={20} />
-          Sair
-        </button>
-      )}
+        )}
+        {!isAdminSection && isAdmin && (
+          <Link href="/admin" className={tabClass(false)}>
+            <ShieldCheck size={20} />
+            Admin
+          </Link>
+        )}
+        {(isAdminSection || isLoggedIn) && (
+          <button type="button" onClick={handleSignOut} className={tabClass(false)}>
+            <LogOut size={20} />
+            Sair
+          </button>
+        )}
+      </div>
     </nav>
   );
 }
