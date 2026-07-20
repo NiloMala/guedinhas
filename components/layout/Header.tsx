@@ -2,21 +2,32 @@
 
 import Link from "next/link";
 import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import { supabaseBrowser } from "@/lib/supabase/client";
 
-const links = [
+const baseLinks = [
   ["Home", "/"],
   ["Catalogo", "/catalogo"],
   ["Sobre", "/sobre"],
-  ["Contato", "/contato"],
-  ["Admin", "/admin"]
+  ["Contato", "/contato"]
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { items } = useCart();
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    supabaseBrowser.auth.getUser().then(({ data }) => setIsAdmin(Boolean(data.user)));
+    const { data: subscription } = supabaseBrowser.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(Boolean(session?.user));
+    });
+    return () => subscription.subscription.unsubscribe();
+  }, []);
+
+  const links = isAdmin ? [...baseLinks, ["Admin", "/admin"]] : baseLinks;
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white/90 backdrop-blur">
