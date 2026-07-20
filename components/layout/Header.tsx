@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LogOut, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 import { useCart } from "@/hooks/useCart";
 import { supabaseBrowser } from "@/lib/supabase/client";
 
@@ -17,14 +18,19 @@ const baseLinks = [
 export function Header() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const { items } = useCart();
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
-    supabaseBrowser.auth.getUser().then(({ data }) => setIsAdmin(Boolean(data.user)));
+    function applyUser(user: User | null | undefined) {
+      setIsLoggedIn(Boolean(user));
+      setIsAdmin((user?.app_metadata as { role?: string } | undefined)?.role === "admin");
+    }
+    supabaseBrowser.auth.getUser().then(({ data }) => applyUser(data.user));
     const { data: subscription } = supabaseBrowser.auth.onAuthStateChange((_event, session) => {
-      setIsAdmin(Boolean(session?.user));
+      applyUser(session?.user);
     });
     return () => subscription.subscription.unsubscribe();
   }, []);
@@ -50,7 +56,7 @@ export function Header() {
               {label}
             </Link>
           ))}
-          {isAdmin && (
+          {isLoggedIn && (
             <button onClick={handleSignOut} className="focus-ring inline-flex items-center gap-1.5 text-ink/70 transition hover:text-ink">
               <LogOut size={16} /> Sair
             </button>
@@ -60,7 +66,7 @@ export function Header() {
           <Link href="/catalogo" aria-label="Buscar produtos" className="focus-ring rounded-md p-2 hover:bg-ink/5">
             <Search size={20} />
           </Link>
-          <Link href="/login" aria-label="Minha conta" className="focus-ring rounded-md p-2 hover:bg-ink/5">
+          <Link href={isLoggedIn ? "/minha-conta" : "/login"} aria-label="Minha conta" className="focus-ring rounded-md p-2 hover:bg-ink/5">
             <UserRound size={20} />
           </Link>
           <Link href="/carrinho" aria-label="Carrinho" className="focus-ring relative rounded-md p-2 hover:bg-ink/5">
@@ -79,7 +85,7 @@ export function Header() {
               {label}
             </Link>
           ))}
-          {isAdmin && (
+          {isLoggedIn && (
             <button onClick={handleSignOut} className="flex items-center gap-1.5 rounded-md px-2 py-2 text-left text-ink/75 hover:bg-ink/5">
               <LogOut size={16} /> Sair
             </button>

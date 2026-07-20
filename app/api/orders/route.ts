@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { getRouteUser } from "@/lib/supabase/route-client";
 import { mapOrder } from "@/lib/supabase/mappers";
 
 const ORDER_SELECT = "*, order_items(*)";
@@ -17,6 +18,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { customer, email, whatsapp, items, subtotal, discount, shipping, total } = body;
+  const user = await getRouteUser();
 
   const { data, error } = await supabaseAdmin.rpc("create_order_from_checkout", {
     p_customer: customer,
@@ -34,7 +36,8 @@ export async function POST(request: NextRequest) {
     p_subtotal: subtotal,
     p_discount: discount,
     p_shipping: shipping,
-    p_total: total
+    p_total: total,
+    p_customer_id: user?.id || null
   });
 
   if (error) return NextResponse.json({ ok: false, message: error.message }, { status: 500 });

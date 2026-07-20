@@ -25,7 +25,11 @@ export async function middleware(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser();
 
+  const isAdmin = user?.app_metadata?.role === "admin";
   const { pathname } = request.nextUrl;
+
+  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isCustomerPage = pathname === "/minha-conta" || pathname === "/meus-pedidos";
   const isCheckoutPost = pathname === "/api/orders" && request.method === "POST";
   const isProtectedApi =
     pathname.startsWith("/api/products") ||
@@ -35,22 +39,27 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/upload") ||
     (pathname.startsWith("/api/orders") && !isCheckoutPost);
 
-  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
-
-  if (!user && isAdminPage) {
+  if (isAdminPage && !isAdmin) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin-login";
+    url.pathname = "/login";
     url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (!user && isProtectedApi) {
+  if (isCustomerPage && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (isProtectedApi && !isAdmin) {
     return NextResponse.json({ ok: false, message: "Nao autenticado." }, { status: 401 });
   }
 
-  if (user && pathname === "/admin-login") {
+  if (user && pathname === "/login") {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin";
+    url.pathname = isAdmin ? "/admin" : "/minha-conta";
     return NextResponse.redirect(url);
   }
 
@@ -60,7 +69,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/admin/:path*",
-    "/admin-login",
+    "/login",
+    "/minha-conta",
+    "/meus-pedidos",
     "/api/products/:path*",
     "/api/stock-movements/:path*",
     "/api/categories/:path*",

@@ -2,12 +2,13 @@
 
 import { CreditCard, MapPin, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { currency } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
 import { useStore } from "@/services/store";
+import { supabaseBrowser } from "@/lib/supabase/client";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -19,6 +20,15 @@ export default function CheckoutPage() {
   const [message, setMessage] = useState("");
   const coupon = couponCode ? getCoupon(couponCode) : undefined;
   const totals = calculateTotals(coupon);
+
+  useEffect(() => {
+    supabaseBrowser.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+      setCustomer((current) => current || data.user.user_metadata?.name || "");
+      setEmail((current) => current || data.user.email || "");
+      setWhatsapp((current) => current || data.user.user_metadata?.whatsapp || "");
+    });
+  }, []);
 
   async function finishOrder() {
     setMessage("");
