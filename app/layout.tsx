@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { StoreProvider } from "@/services/store";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -19,8 +20,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <StoreProvider>
           <Header />
-          <main>{children}</main>
+          <main className="pb-16 md:pb-0">{children}</main>
           <Footer />
+          <MobileTabBar />
         </StoreProvider>
       </body>
     </html>

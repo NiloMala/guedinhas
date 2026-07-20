@@ -3,7 +3,7 @@ import { Instagram, MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-ink/10 bg-ink text-white">
+    <footer className="border-t border-ink/10 bg-ink pb-16 text-white md:pb-0">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-4 lg:px-8">
         <div>
           <h2 className="font-display text-2xl">Guedinhas</h2>
