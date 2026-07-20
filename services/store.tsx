@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { mapCoupon, mapProduct } from "@/lib/supabase/mappers";
 import { Coupon, Order, OrderStatus, Product, ProductVariation, StockMovement } from "@/types";
@@ -83,6 +84,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     suppliers: []
   });
   const [hydrated, setHydrated] = useState(false);
+  const pathname = usePathname();
+  const isAdminRoute = pathname === "/admin" || pathname?.startsWith("/admin/");
 
   const refreshCatalog = useCallback(async () => {
     const [productsRes, categoriesRes, suppliersRes, couponsRes] = await Promise.all([
@@ -114,10 +117,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      await Promise.all([refreshCatalog(), refreshOrders(), refreshStockMovements()]);
+      await refreshCatalog();
       setHydrated(true);
     })();
-  }, [refreshCatalog, refreshOrders, refreshStockMovements]);
+  }, [refreshCatalog]);
+
+  // Pedidos e movimentacoes de estoque exigem sessao (rotas protegidas pelo
+  // middleware) - so buscamos quando o usuario esta navegando no /admin.
+  useEffect(() => {
+    if (isAdminRoute) {
+      refreshOrders();
+      refreshStockMovements();
+    }
+  }, [isAdminRoute, refreshOrders, refreshStockMovements]);
 
   function findProduct(slug: string) {
     return state.products.find((product) => product.slug === slug);
